@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
-import { Hero } from '../hero.interface'; 
-import { CommonModule } from '@angular/common'; 
-import { FormsModule } from '@angular/forms'; 
-import { HEROES } from '../mock-heroes'; 
-import { HeroDetailComponent } from '../hero-detail/hero-detail';
+import { Component, OnInit } from '@angular/core';
+import { Hero } from '../hero.interface';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { HeroService } from '../hero';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-heroes',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeroDetailComponent], 
-  templateUrl: './heroes.html', 
+  imports: [CommonModule, FormsModule, RouterLink],
+  templateUrl: './heroes.html',
   styles: [`
+    /* HeroesComponent's private CSS styles */
     .heroes {
       margin: 0 0 2em 0;
-      list-style-type: none;
+      list-style-type: none; /* Removes bullets */
       padding: 0;
       width: 15em;
     }
@@ -59,17 +60,57 @@ import { HeroDetailComponent } from '../hero-detail/hero-detail';
       margin-right: .8em;
       border-radius: 4px 0 0 4px;
     }
+    /* Style for the selected item (though not used in list view now) */
     .selected {
       background-color: #CFD8DC !important;
       color: white;
     }
+    .heroes li.selected:hover {
+      background-color: #BBD8DC !important;
+      color: white;
+    }
+    /* Styles for the delete button */
+    button.delete {
+      position: absolute;
+      left: 194px; /* Adjusted position slightly */
+      top: 5px;
+      background-color: white;
+      color: #525252;
+      font-size: 1.1rem;
+      padding: 1px 10px;
+      border-radius: 4px;
+    }
+    button.delete:hover {
+      background-color: #525252;
+      color: white;
+    }
   `]
 })
-export class HeroesComponent {
-  heroes: Hero[] = HEROES;
-  selectedHero?: Hero;
+export class HeroesComponent implements OnInit {
+  heroes: Hero[] = [];
 
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
+  constructor(private heroService: HeroService) { }
+
+  ngOnInit(): void {
+    this.getHeroes();
+  }
+
+  getHeroes(): void {
+    this.heroService.getHeroes()
+        .subscribe(heroes => this.heroes = heroes);
+  }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero.id).subscribe();
   }
 }
