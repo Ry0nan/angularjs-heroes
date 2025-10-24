@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Hero } from '../hero.interface';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,24 +19,19 @@ export class HeroDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private heroService: HeroService,
     private location: Location,
-    private cdr: ChangeDetectorRef 
-  ) {
-    console.log('HeroDetailComponent: Constructor called');
-  }
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    console.log('HeroDetailComponent: ngOnInit called');
     this.getHero();
   }
 
   getHero(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(`HeroDetailComponent: Fetching hero with id: ${id}`);
     this.heroService.getHero(id)
       .subscribe(hero => {
-        console.log('HeroDetailComponent: Received hero:', hero);
         this.hero = hero;
-        this.cdr.markForCheck(); 
+        this.cdr.markForCheck();
       });
   }
 
@@ -47,7 +42,7 @@ export class HeroDetailComponent implements OnInit {
   save(): void {
     if (this.hero) {
       this.heroService.updateHero(this.hero)
-        .subscribe(() => this.goBack());
+        .subscribe(() => this.goBack()); 
     }
   }
 }
