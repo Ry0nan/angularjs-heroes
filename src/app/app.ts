@@ -1,12 +1,20 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Hero } from './hero.interface';
+import { FormsModule } from '@angular/forms'; 
+import { HeroesComponent } from './heroes/heroes';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [RouterOutlet, FormsModule, HeroesComponent], 
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('angular-tour-of-heroes');
+export class AppComponent {
+  title = 'Tour of Heroes';
+  hero: Hero = {
+    id: 1,
+    name: 'Windstorm'
+  };
 }
