@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { MessageService } from '../message'; // <-- Use correct SERVICE class name
+import { MessageService } from '../message'; 
 
-describe('MessageService', () => { // <-- Use correct SERVICE class name
-  let service: MessageService; // <-- Use correct SERVICE class name
+describe('MessageService', () => { 
+  let service: MessageService; 
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MessageService); // <-- Use correct SERVICE class name
+    service = TestBed.inject(MessageService); 
   });
 
   it('should be created', () => {

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero.interface';
-import { HeroService } from '../hero'; 
-import { CommonModule } from '@angular/common'; 
-import { RouterLink } from '@angular/router'; 
+import { HeroService } from '../hero';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { HeroSearchComponent } from '../hero-search/hero-search'; 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink], 
+  imports: [CommonModule, RouterLink, HeroSearchComponent], 
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -22,6 +23,6 @@ export class DashboardComponent implements OnInit {
 
   getHeroes(): void {
     this.heroService.getHeroes()
-      .subscribe(heroes => this.heroes = heroes.slice(1, 5)); 
+      .subscribe(heroes => this.heroes = heroes.slice(1, 5));
   }
 }
